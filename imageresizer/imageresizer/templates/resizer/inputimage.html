@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{image.image_name}}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'resizer:startpage' %}">Назад к списку</a>
+    <h1>Новое изображение</h1>
+        <br/>
+
+        <form action="{% url 'resizer:appendimage'%}" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div>
+                <label for="link">Ссылка</label>
+                <input type="text" id="link" name="link">
+            </div>
+            <br/>
+
+            <div>
+                <label for="file">Файл</label>
+                <input type="file" id="file" name="myFile">
+            </div>
+            {% if exception %}
+                <br/>
+            <b>{{exception}}</b>
+            {% endif %}
+
+                <br/>
+
+            <div>
+                <button>Отправить</button>
+            </div>
+
+
+        </form>
+
+{% endblock %}
