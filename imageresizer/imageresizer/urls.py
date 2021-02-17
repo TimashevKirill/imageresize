@@ -19,6 +19,6 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('imageresize/', include('resizer.urls')),
+    path('', include('resizer.urls')),
     path('admin/', admin.site.urls),
 ]
