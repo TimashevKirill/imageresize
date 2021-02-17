@@ -11,5 +11,4 @@ urlpatterns = [
     path('/new', views.inputimage, name='inputimage'),
     path('/append', views.appendimage, name='appendimage'),
     path('/resize', views.resizeimage, name='resizeimage')
-
 ]

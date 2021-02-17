@@ -8,7 +8,7 @@ from .models import Image
 from PIL import Image as img
 
 from io import BytesIO
-from os import environ, getenv
+
 import base64
 
 import requests
@@ -137,15 +137,16 @@ def resizeimage(request):
     The logic does the resizing of the image and returns
       view html file with image..
     :param request:
-    :return:
+    :return: returns view html file with image
     """
     try:
         image_name = request.POST['name']
 
-        image = Image.objects.get(image_name=image_name)
+        image_obj = Image.objects.get(image_name=image_name)
 
-        original_image = img.open(image.image_path)
+        original_image = img.open(image_obj.image_path)
         origin_width, origin_height = original_image.size
+
         width = request.POST['width'] if len(
             request.POST['width']) > 0 else origin_width
 
@@ -156,11 +157,14 @@ def resizeimage(request):
 
         width, height = resized_image.size
 
-        output = BytesIO()
+
+
         if image_name.split('.')[1] == 'jpg':
             format = "JPEG"
         else:
             format = image_name.split('.')[1]
+
+        output = BytesIO()
         resized_image.save(output, format=format)
 
         image_bynary = output.getvalue()
@@ -171,7 +175,7 @@ def resizeimage(request):
         return render(request,
                       'resizer/viewimage.html',
                       {"image": encoded_string,
-                       'name': image.image_name,
+                       'name': image_obj.image_name,
                        'width': width,
                        'height': height})
 
